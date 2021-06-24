@@ -221,6 +221,7 @@ dashboard:
         limit: Antal synlige sager
         show_completed: Vis afsluttede sager
         title: Mine sager
+        pagination_info: '%count% af %total%'
     not_assigned:
         title: Ikke tildelte sager
     not_visited:
@@ -516,6 +517,7 @@ process:
             results: Eksisterende sag(er) fundet
     index:
         title: Sager
+        pagination_info: '%start%–%end% af %total%'
     menu_title: Sager
     new:
         title: Opret sag

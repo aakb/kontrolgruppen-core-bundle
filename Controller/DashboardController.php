@@ -56,11 +56,14 @@ class DashboardController extends BaseController
             return $this->redirect($menuItem->path);
         }
 
-        $filterFormBuilder = $this->createFormBuilder(null, [
-            'attr' => [
-                'id' => 'dashboard_process_limit',
-            ],
-        ]);
+        $filterFormBuilder = $this
+            ->createFormBuilder(null, [
+                'attr' => [
+                    'id' => 'dashboard_process_limit',
+                ],
+                'csrf_protection' => false,
+            ])
+            ->setMethod('GET');
 
         $filterFormBuilder->add('showCompleted', CheckboxType::class, [
             'label' => 'dashboard.my_processes.show_completed',
