@@ -11,7 +11,9 @@
 namespace Kontrolgruppen\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Kontrolgruppen\CoreBundle\Entity\Process;
 
 /**
  * Base class for taxonomy repositories.
@@ -34,7 +36,7 @@ abstract class AbstractTaxonomyRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find reasons by client type.
+     * Find taxonomy by client type.
      *
      * @param string|null $clientType The client type
      *
@@ -42,13 +44,60 @@ abstract class AbstractTaxonomyRepository extends ServiceEntityRepository
      */
     public function findByClientType(string $clientType = null)
     {
-        $queryBuilder = $this
-            ->createQueryBuilder('t', 't.id')
-            ->where('t.clientTypes IS NULL')
-            ->orWhere('t.clientTypes LIKE :clientType')
-            ->setParameter('clientType', '%'.json_encode($clientType, \JSON_THROW_ON_ERROR).'%')
-            ->getQuery();
+        return $this->findByClientTypes([$clientType]);
+    }
 
-        return $queryBuilder->getResult();
+    /**
+     * Find taxonomy by client types.
+     *
+     * @param string[] $clientTypes
+     *
+     * @return mixed
+     */
+    public function findByClientTypes(array $clientTypes)
+    {
+        return $this
+            ->createFindByClientTypesQueryBuilder($clientTypes)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find taxonomy by process.
+     *
+     * @param string|null $process
+     *
+     * @return mixed
+     */
+    public function findByProcess(Process $process)
+    {
+        return $this->findByClientType($process->getProcessClient()->getType());
+    }
+
+    /**
+     * Create a find by client type query builder.
+     *
+     * @param array $clientTypes
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function createFindByClientTypesQueryBuilder(array $clientTypes): QueryBuilder
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('t', 't.id');
+
+        if (!empty($clientTypes)) {
+            $clientTypeCriteria = $queryBuilder->expr()->orX(
+                't.clientTypes IS NULL'
+            );
+            foreach ($clientTypes as $index => $clientType) {
+                $placeHolder = 'clientType_'.$index;
+                $clientTypeCriteria->add('t.clientTypes LIKE :'.$placeHolder);
+                $queryBuilder->setParameter($placeHolder, '%'.json_encode($clientType).'%');
+            }
+            $queryBuilder->andWhere($clientTypeCriteria);
+        }
+
+        return $queryBuilder;
     }
 }

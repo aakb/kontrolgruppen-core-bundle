@@ -13,6 +13,7 @@ namespace Kontrolgruppen\CoreBundle\Repository;
 use Kontrolgruppen\CoreBundle\Entity\Process;
 use Kontrolgruppen\CoreBundle\Entity\ProcessType;
 use Kontrolgruppen\CoreBundle\Entity\Service;
+use Kontrolgruppen\CoreBundle\Repository\Traits\FindByProcessTypeTrait;
 
 /**
  * @method Service|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,6 +23,8 @@ use Kontrolgruppen\CoreBundle\Entity\Service;
  */
 class ServiceRepository extends AbstractTaxonomyRepository
 {
+    use FindByProcessTypeTrait;
+
     /**
      * {@inheritdoc}
      */

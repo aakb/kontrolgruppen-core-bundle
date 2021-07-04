@@ -12,6 +12,7 @@ namespace Kontrolgruppen\CoreBundle\Repository;
 
 use Kontrolgruppen\CoreBundle\Entity\Channel;
 use Kontrolgruppen\CoreBundle\Entity\ProcessType;
+use Kontrolgruppen\CoreBundle\Repository\Traits\FindByProcessTypeTrait;
 
 /**
  * @method Channel|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,6 +22,8 @@ use Kontrolgruppen\CoreBundle\Entity\ProcessType;
  */
 class ChannelRepository extends AbstractTaxonomyRepository
 {
+    use FindByProcessTypeTrait;
+
     /**
      * {@inheritdoc}
      */
