@@ -22,7 +22,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ProcessClientPerson extends AbstractProcessClient
 {
-    protected static $type = 'person';
+    protected $type = 'person';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

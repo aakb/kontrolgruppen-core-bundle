@@ -40,7 +40,7 @@ abstract class AbstractProcessClient extends AbstractEntity implements ProcessLo
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected static $type;
+    protected $type;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -109,7 +109,7 @@ abstract class AbstractProcessClient extends AbstractEntity implements ProcessLo
      */
     public function getType(): string
     {
-        return static::$type;
+        return $this->type;
     }
 
     /**

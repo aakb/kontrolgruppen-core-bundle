@@ -20,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ProcessClientCompany extends AbstractProcessClient
 {
-    protected static $type = 'company';
+    protected $type = 'company';
 
     /**
      * {@inheritdoc}
