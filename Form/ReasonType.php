@@ -27,11 +27,10 @@ class ReasonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $data = $builder->getData();
         $builder
             ->add('clientTypes', ClientTypesType::class, [
-                'label' => 'process_type.form.client_types',
-                //'disabled' => null !== $data && null !== $data->getClientType(),
+                'label' => 'reason.form.client_types.label',
+                'help' => 'reason.form.client_types.help',
             ]);
 
         $builder

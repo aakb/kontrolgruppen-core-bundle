@@ -62,7 +62,6 @@ class ClientTypesType extends ChoiceType
             'choices' => $choices,
             'multiple' => true,
             'expanded' => true,
-            'help' => $this->translator->trans('client_types.help'),
         ]);
     }
 }

@@ -10,7 +10,7 @@
 
 namespace Kontrolgruppen\CoreBundle\Form;
 
-use Kontrolgruppen\CoreBundle\Entity\ProcessType;
+use Kontrolgruppen\CoreBundle\Entity\AbstractTaxonomy;
 use Kontrolgruppen\CoreBundle\Entity\Service;
 use Kontrolgruppen\CoreBundle\Form\Process\ClientTypesType;
 use Kontrolgruppen\CoreBundle\Repository\ProcessTypeRepository;
@@ -51,7 +51,8 @@ class ServiceType extends AbstractType
     {
         $builder
             ->add('clientTypes', ClientTypesType::class, [
-                'label' => 'process_type.form.client_types',
+                'label' => 'service.form.client_types.label',
+                'help' => 'service.form.client_types.help',
             ]);
 
         $builder
@@ -66,10 +67,10 @@ class ServiceType extends AbstractType
                 'label' => 'service.form.process_types',
                 'by_reference' => false,
                 'attr' => ['class' => 'select2'],
-                'choice_label' => function (ProcessType $processType) {
-                    $label = $processType->getName();
+                'choice_label' => function (AbstractTaxonomy $taxonomy) {
+                    $label = $taxonomy->getName();
 
-                    if ($clientTypes = $processType->getClientTypes()) {
+                    if ($clientTypes = $taxonomy->getClientTypes()) {
                         $label .= ' ('.implode(', ', array_map(function (string $clientType) {
                             return $this->translator->trans('process_client_type.'.$clientType);
                         }, $clientTypes)).')';

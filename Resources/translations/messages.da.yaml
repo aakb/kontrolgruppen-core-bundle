@@ -1099,4 +1099,6 @@ process_client_type:
     person: Person
 
 client_types:
-    help: Vælg klienttyper som “denne” skal gælde for. Hvis ingen er valgt gælder “den” for alle sager.
+    help: Vælg klienttyper. Gælder for alt hvis ingen klienttyper er valgt.
+
+Kontrolgruppen\CoreBundle\Entity\ProcessStatus: Processstatus
