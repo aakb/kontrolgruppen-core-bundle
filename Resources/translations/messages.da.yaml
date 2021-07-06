@@ -1101,4 +1101,7 @@ process_client_type:
 client_types:
     help: Vælg klienttyper. Gælder for alt hvis ingen klienttyper er valgt.
 
-Kontrolgruppen\CoreBundle\Entity\ProcessStatus: Processstatus
+Kontrolgruppen\CoreBundle\Entity\Channel: Kanal
+Kontrolgruppen\CoreBundle\Entity\ProcessStatus: Sagsstatus
+Kontrolgruppen\CoreBundle\Entity\Service: Ydelse
+'%taxonomy_class% %taxonomy_name% is not valid for the selected client types': '%taxonomy_class% %taxonomy_name% er ikke gyldig for de valgte klienttyper'
