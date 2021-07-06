@@ -10,7 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Form;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Kontrolgruppen\CoreBundle\Entity\AbstractTaxonomy;
 use Kontrolgruppen\CoreBundle\Entity\Channel;
 use Kontrolgruppen\CoreBundle\Entity\ProcessStatus;
@@ -21,12 +20,8 @@ use Kontrolgruppen\CoreBundle\Form\Process\ClientTypesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,7 +31,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ProcessTypeType extends AbstractType
 {
     private $dispatcher;
-    private $entityManager;
     private $translator;
 
     protected $taxonomies = [
@@ -50,10 +44,9 @@ class ProcessTypeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function __construct(EventDispatcherInterface $dispatcher, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator)
     {
         $this->dispatcher = $dispatcher;
-        $this->entityManager = $entityManager;
         $this->translator = $translator;
     }
 
@@ -115,21 +108,13 @@ class ProcessTypeType extends AbstractType
                 'label' => 'process_type.form.default_process_status',
                 'help' => 'process_type.form.default_process_status_help',
             ])
-//            ->add('defaultProcessStatusOnEmptyCaseWorker', EntityType::class, [
-//                'class' => ProcessStatus::class,
-//                'choice_label' => function (AbstractTaxonomy $taxonomy) { return $this->getTaxonomyNameWithClientTypes($taxonomy); },
-//                'label' => 'process_type.form.default_process_status_on_empty_case_worker',
-//                'help' => 'process_type.form.default_process_status_on_empty_case_worker_help',
-//            ])
+            ->add('defaultProcessStatusOnEmptyCaseWorker', EntityType::class, [
+                'class' => ProcessStatus::class,
+                'choice_label' => $getTaxonomyNameWithClientTypes,
+                'label' => 'process_type.form.default_process_status_on_empty_case_worker',
+                'help' => 'process_type.form.default_process_status_on_empty_case_worker_help',
+            ])
         ;
-
-        $this->addTaxonomy($builder, 'defaultProcessStatusOnEmptyCaseWorker', EntityType::class, [
-            'class' => ProcessStatus::class,
-            'label' => 'process_type.form.default_process_status_on_empty_case_worker',
-            'help' => 'process_type.form.default_process_status_on_empty_case_worker_help',
-        ]);
-
-        $this->validateTaxonomies($builder);
     }
 
     /**
@@ -140,27 +125,6 @@ class ProcessTypeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ProcessType::class,
         ]);
-    }
-
-    /**
-     * Add taxonomy field to form builder.
-     *
-     * @param FormBuilderInterface $builder
-     * @param $child
-     * @param null                 $type
-     * @param array                $options
-     *
-     * @return FormBuilderInterface
-     */
-    protected function addTaxonomy(FormBuilderInterface $builder, $child, $type = null, array $options = [])
-    {
-        $builder->add($child, $type, $options + [
-                'choice_label' => function (AbstractTaxonomy $taxonomy) {
-                    return $this->getTaxonomyNameWithClientTypes($taxonomy);
-                },
-        ]);
-
-        return $builder;
     }
 
     /**
@@ -181,39 +145,5 @@ class ProcessTypeType extends AbstractType
         }
 
         return $label;
-    }
-
-    /**
-     * Validate taxonomies on a form.
-     *
-     * @param FormBuilderInterface $builder
-     */
-    protected function validateTaxonomies(FormBuilderInterface $builder)
-    {
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event) {
-            $data = $event->getData();
-            $clientTypes = $data['clientTypes'] ?? [];
-
-            foreach ($this->taxonomies as $taxonomyField => $taxonomyClass) {
-                $taxonomyRepository = $this->entityManager->getRepository($taxonomyClass);
-                $allowedTaxonomies = $taxonomyRepository->findByClientTypes($clientTypes);
-                $invalidTaxonomyIds = array_diff((array) $data[$taxonomyField], array_keys($allowedTaxonomies));
-
-                if (!empty($invalidTaxonomyIds)) {
-                    $invalidTaxonomies = $taxonomyRepository->findBy(['id' => $invalidTaxonomyIds]);
-                    foreach ($invalidTaxonomies as $taxonomy) {
-                        $event->getForm()->addError(new FormError(
-                            $this->translator->trans(
-                                '%taxonomy_class% %taxonomy_name% is not valid for the selected client types',
-                                [
-                                    '%taxonomy_class%' => $this->translator->trans($taxonomyClass),
-                                    '%taxonomy_name%' => $taxonomy->getName(),
-                                ]
-                            )
-                        ));
-                    }
-                }
-            }
-        });
     }
 }

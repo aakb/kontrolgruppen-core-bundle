@@ -13,7 +13,6 @@ namespace Kontrolgruppen\CoreBundle\Form;
 use Kontrolgruppen\CoreBundle\Entity\AbstractTaxonomy;
 use Kontrolgruppen\CoreBundle\Entity\ForwardedToAuthority;
 use Kontrolgruppen\CoreBundle\Form\Process\ClientTypesType;
-use Kontrolgruppen\CoreBundle\Repository\ProcessTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,18 +23,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ForwardedToAuthorityType extends AbstractType
 {
-    private $processTypeRepository;
     private $translator;
 
     /**
      * ServiceType constructor.
      *
-     * @param ProcessTypeRepository $processTypeRepository
-     * @param TranslatorInterface   $translator
+     * @param TranslatorInterface $translator
      */
-    public function __construct(ProcessTypeRepository $processTypeRepository, TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->processTypeRepository = $processTypeRepository;
         $this->translator = $translator;
     }
 

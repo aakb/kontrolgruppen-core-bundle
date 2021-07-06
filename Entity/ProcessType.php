@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Kontrolgruppen\CoreBundle\Validator\ValidClientTaxonomy;
 
 /**
  * @ORM\Entity(repositoryClass="Kontrolgruppen\CoreBundle\Repository\ProcessTypeRepository")
@@ -29,6 +30,8 @@ class ProcessType extends AbstractTaxonomy
 
     /**
      * @ORM\ManyToMany(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessStatus", inversedBy="processTypes")
+     *
+     * @ValidClientTaxonomy()
      */
     private $processStatuses;
 
@@ -44,23 +47,31 @@ class ProcessType extends AbstractTaxonomy
 
     /**
      * @ORM\ManyToMany(targetEntity="Kontrolgruppen\CoreBundle\Entity\Service", inversedBy="processTypes")
+     *
+     * @ValidClientTaxonomy()
      */
     private $services;
 
     /**
      * @ORM\ManyToMany(targetEntity="Kontrolgruppen\CoreBundle\Entity\Channel", inversedBy="processTypes")
+     *
+     * @ValidClientTaxonomy()
      */
     private $channels;
 
     /**
      * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessStatus")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @ValidClientTaxonomy()
      */
     private $defaultProcessStatus;
 
     /**
      * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessStatus")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @ValidClientTaxonomy()
      */
     private $defaultProcessStatusOnEmptyCaseWorker;
 
