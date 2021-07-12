@@ -128,6 +128,8 @@ client:
         employment: Ansættelsesforhold
         transportation: Transport
         companies: Virksomheder
+        contact_person: Kontaktperson
+
 common:
     actions:
         back: Gå tilbage
@@ -215,6 +217,10 @@ conclusion:
     types:
         base: Basal
         weighted: Argumenter for/imod
+
+contact_person:
+    name: Navn
+    telephone: Telefon
 
 court_decision:
     'true': Medhold

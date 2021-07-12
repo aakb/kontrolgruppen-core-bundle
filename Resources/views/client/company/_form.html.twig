@@ -19,6 +19,16 @@
         </div>
     </div>
 
+    <h2>{{ 'client.sections.contact_person'|trans }}</h2>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.contactPerson.name) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.contactPerson.telephone) }}
+        </div>
+    </div>
+
     <h2>{{ 'client.sections.generel_info'|trans }}</h2>
     <div class="row">
         <div class="col-12">

@@ -23,6 +23,20 @@ class ProcessClientCompany extends AbstractProcessClient
     protected $type = 'company';
 
     /**
+     * @ORM\Embedded(class="Kontrolgruppen\CoreBundle\Entity\ContactPerson")
+     */
+    private $contactPerson;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->contactPerson = new ContactPerson();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __toString()
@@ -50,5 +64,25 @@ class ProcessClientCompany extends AbstractProcessClient
     public function setCvr(string $cvr): self
     {
         return $this->setIdentifier($cvr);
+    }
+
+    /**
+     * @return ContactPerson
+     */
+    public function getContactPerson(): ContactPerson
+    {
+        return $this->contactPerson;
+    }
+
+    /**
+     * @param ContactPerson $contactPerson
+     *
+     * @return $this
+     */
+    public function setContactPerson(ContactPerson $contactPerson): self
+    {
+        $this->contactPerson = $contactPerson;
+
+        return $this;
     }
 }
