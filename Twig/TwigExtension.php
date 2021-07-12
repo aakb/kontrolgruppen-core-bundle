@@ -13,6 +13,8 @@ namespace Kontrolgruppen\CoreBundle\Twig;
 use Exception;
 use Kontrolgruppen\CoreBundle\Entity\Conclusion;
 use Kontrolgruppen\CoreBundle\Entity\Process;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientCompany;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson;
 use Kontrolgruppen\CoreBundle\Service\ConclusionService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -149,9 +151,9 @@ class TwigExtension extends AbstractExtension
             ', ',
             array_map(function (string $type) {
                 switch ($type) {
-                    case 'company':
+                    case ProcessClientCompany::TYPE:
                         return $this->translator->trans('process_client_type.company');
-                    case 'person':
+                    case ProcessClientPerson::TYPE:
                         return $this->translator->trans('process_client_type.person');
                     default:
                         return $this->translator->trans('process_client_type.none');

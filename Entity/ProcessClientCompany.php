@@ -20,7 +20,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ProcessClientCompany extends AbstractProcessClient
 {
-    protected $type = 'company';
+    public const TYPE = parent::COMPANY;
+    protected $type = parent::COMPANY;
 
     /**
      * @ORM\Embedded(class="Kontrolgruppen\CoreBundle\Entity\ContactPerson")

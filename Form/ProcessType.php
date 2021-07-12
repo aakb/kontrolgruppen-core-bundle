@@ -10,6 +10,7 @@
 
 namespace Kontrolgruppen\CoreBundle\Form;
 
+use Kontrolgruppen\CoreBundle\Entity\AbstractProcessClient;
 use Kontrolgruppen\CoreBundle\Entity\Process;
 use Kontrolgruppen\CoreBundle\Entity\ProcessType as ProcessTypeEntity;
 use Kontrolgruppen\CoreBundle\Form\Process\ClientCompanyType;
@@ -73,7 +74,7 @@ class ProcessType extends AbstractType
             $client = $process->getProcessClient();
             if (null !== $client && null === $client->getId()) {
                 switch ($client->getType()) {
-                    case 'company':
+                    case AbstractProcessClient::COMPANY:
                         $builder
                             ->add('company', ClientCompanyType::class, [
                                 'label' => false,
@@ -81,7 +82,7 @@ class ProcessType extends AbstractType
                             ]);
                         break;
 
-                    case 'person':
+                    case AbstractProcessClient::PERSON:
                         $builder
                             ->add('person', ClientPersonType::class, [
                                 'label' => false,

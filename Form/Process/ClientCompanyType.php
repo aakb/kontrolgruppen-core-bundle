@@ -48,7 +48,6 @@ class ClientCompanyType extends AbstractType
                 'label' => 'process.form.client_cvr',
                 'attr' => [
                     'class' => 'js-input-cvr no-cvr-scanning',
-                    'data-client-type' => 'company',
                 ],
                 'required' => false,
             ])

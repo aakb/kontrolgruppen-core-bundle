@@ -22,7 +22,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ProcessClientPerson extends AbstractProcessClient
 {
-    protected $type = 'person';
+    public const TYPE = parent::PERSON;
+    protected $type = parent::PERSON;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

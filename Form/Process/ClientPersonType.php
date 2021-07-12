@@ -48,7 +48,6 @@ class ClientPersonType extends AbstractType
                 'label' => 'process.form.client_cpr',
                 'attr' => [
                     'class' => 'js-input-cpr no-cpr-scanning',
-                    'data-client-type' => 'person',
                 ],
                 'required' => false,
             ])

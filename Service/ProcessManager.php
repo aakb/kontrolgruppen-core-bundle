@@ -16,6 +16,7 @@ use Kontrolgruppen\CoreBundle\CPR\CprServiceInterface;
 use Kontrolgruppen\CoreBundle\Entity\AbstractProcessClient;
 use Kontrolgruppen\CoreBundle\Entity\Conclusion;
 use Kontrolgruppen\CoreBundle\Entity\Process;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson;
 use Kontrolgruppen\CoreBundle\Entity\User;
 use Kontrolgruppen\CoreBundle\Repository\ProcessRepository;
 use Psr\Log\LoggerInterface;
@@ -214,18 +215,35 @@ class ProcessManager
         $process->setCompletedAt($completedAt);
         $process->setLastCompletedAt($completedAt);
 
-        $calculatedRevenue = $this->economyService->calculateRevenue($process);
-        $netCollectiveSum = $calculatedRevenue['netCollectiveSum'] ?: null;
+        if ($this->isRevenueAvailable($process)) {
+            $calculatedRevenue = $this->economyService->calculateRevenue($process);
+            $netCollectiveSum = $calculatedRevenue['netCollectiveSum'] ?: null;
 
-        if (!empty($process->getLastNetCollectiveSum())) {
-            $netCollectiveSumDifference = $netCollectiveSum - $process->getLastNetCollectiveSum();
-            $process->setNetCollectiveSumDifference($netCollectiveSumDifference);
+            if (!empty($process->getLastNetCollectiveSum())) {
+                $netCollectiveSumDifference = $netCollectiveSum - $process->getLastNetCollectiveSum();
+                $process->setNetCollectiveSumDifference($netCollectiveSumDifference);
+            }
+
+            $process->setLastNetCollectiveSum($netCollectiveSum);
         }
-
-        $process->setLastNetCollectiveSum($netCollectiveSum);
 
         $this->entityManager->persist($process);
         $this->entityManager->flush();
+    }
+
+    /**
+     * Decide if revenue is available for a process, i.e. if it makes sense to
+     * calculate revenue for the process.
+     *
+     * @param Process|null $process
+     *
+     * @return bool
+     */
+    public function isRevenueAvailable(Process $process = null): bool
+    {
+        return null !== $process
+            && null !== $process->getProcessClient()
+            && ProcessClientPerson::PERSON === $process->getProcessClient()->getType();
     }
 
     /**

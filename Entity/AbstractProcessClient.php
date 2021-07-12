@@ -31,6 +31,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class AbstractProcessClient extends AbstractEntity implements ProcessLoggableInterface
 {
+    public const COMPANY = 'company';
+    public const PERSON = 'person';
+
+    // Overwritten in subclasses.
+    public const TYPE = null;
+
     /**
      * @ORM\OneToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Process", inversedBy="processClient", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -38,6 +44,8 @@ abstract class AbstractProcessClient extends AbstractEntity implements ProcessLo
     private $process;
 
     /**
+     * The actual instance type matching the "discr" value.
+     *
      * @ORM\Column(type="string", length=255)
      */
     protected $type;

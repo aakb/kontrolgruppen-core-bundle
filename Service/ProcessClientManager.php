@@ -63,14 +63,14 @@ class ProcessClientManager
     public function createClient(string $type, array $properties = []): AbstractProcessClient
     {
         switch ($type) {
-            case 'company':
+            case ProcessClientCompany::TYPE:
                 $client = new ProcessClientCompany();
                 if ($cvr = $properties['cvr'] ?? null) {
                     $this->cvrService->populateClient(new Cvr($cvr), $client);
                 }
                 break;
 
-            case 'person':
+            case ProcessClientPerson::TYPE:
                 $client = new ProcessClientPerson();
                 if ($cpr = $properties['cpr'] ?? null) {
                     $this->cprService->populateClient(new Cpr($cpr), $client);
@@ -130,8 +130,8 @@ class ProcessClientManager
     public static function getClientTypes(): array
     {
         return [
-            'person' => ProcessClientPerson::class,
-            'company' => ProcessClientCompany::class,
+            ProcessClientPerson::PERSON => ProcessClientPerson::class,
+            ProcessClientCompany::COMPANY => ProcessClientCompany::class,
         ];
     }
 

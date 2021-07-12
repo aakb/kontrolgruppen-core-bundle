@@ -26,6 +26,7 @@ class MenuService
     protected $router;
     protected $twigExtension;
     protected $authorizationChecker;
+    protected $processManager;
 
     /**
      * MenuService constructor.
@@ -34,13 +35,15 @@ class MenuService
      * @param RouterInterface               $router
      * @param TwigExtension                 $twigExtension
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param ProcessManager                $processManager
      */
-    public function __construct(TranslatorInterface $translator, RouterInterface $router, TwigExtension $twigExtension, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(TranslatorInterface $translator, RouterInterface $router, TwigExtension $twigExtension, AuthorizationCheckerInterface $authorizationChecker, ProcessManager $processManager)
     {
         $this->translator = $translator;
         $this->router = $router;
         $this->twigExtension = $twigExtension;
         $this->authorizationChecker = $authorizationChecker;
+        $this->processManager = $processManager;
     }
 
     /**
@@ -172,15 +175,17 @@ class MenuService
                 ['process' => $process]
             );
 
-            $items[] = $this->createMenuItem(
-                'revenue',
-                1 === preg_match(
-                    '/^\/process\/[0-9]+\/revenue.*$/',
-                    $path
-                ),
-                'economy_revenue',
-                ['process' => $process]
-            );
+            if ($this->processManager->isRevenueAvailable($process)) {
+                $items[] = $this->createMenuItem(
+                    'revenue',
+                    1 === preg_match(
+                        '/^\/process\/[0-9]+\/revenue.*$/',
+                        $path
+                    ),
+                    'economy_revenue',
+                    ['process' => $process]
+                );
+            }
 
             $items[] = $this->createMenuItem(
                 'conclusion',

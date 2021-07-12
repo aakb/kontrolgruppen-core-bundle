@@ -10,12 +10,15 @@
             <p>{{ 'process.new.select_client_type'|trans }}</p>
 
             <div class="row">
-                <div class="col">
-                    <a href="{{ path('process_new', {clientType: 'company'}) }}" class="btn btn-primary btn-block">{{ 'process_client_type.company'|trans }}</a>
-                </div>
-                <div class="col">
-                    <a href="{{ path('process_new', {clientType: 'person'}) }}" class="btn btn-primary btn-block">{{ 'process_client_type.person'|trans }}</a>
-                </div>
+                {% set client_types = [
+                    constant('Kontrolgruppen\\CoreBundle\\Entity\\ProcessClientCompany::TYPE'),
+                    constant('Kontrolgruppen\\CoreBundle\\Entity\\ProcessClientPerson::TYPE'),
+                    ] %}
+                {% for client_type in client_types %}
+                    <div class="col">
+                        <a href="{{ path('process_new', {clientType: client_type}) }}" class="btn btn-primary btn-block">{{ ('process_client_type.' ~ client_type)|trans }}</a>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
