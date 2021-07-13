@@ -99,24 +99,28 @@ class ProcessType extends AbstractType
             ])
             // Add placeholders which are replaced and filled in form events.
             ->add('processType', null, [
+                'choices' => [],
                 'label' => 'process.form.process_type',
                 'attr' => [
                     'disabled' => 'disabled',
                 ],
             ])
             ->add('reason', null, [
+                'choices' => [],
                 'label' => 'process.form.reason',
                 'attr' => [
                     'disabled' => 'disabled',
                 ],
             ])
             ->add('service', null, [
+                'choices' => [],
                 'label' => 'process.form.service',
                 'attr' => [
                     'disabled' => 'disabled',
                 ],
             ])
             ->add('channel', null, [
+                'choices' => [],
                 'label' => 'process.form.channel',
                 'attr' => [
                     'disabled' => 'disabled',
@@ -184,7 +188,8 @@ class ProcessType extends AbstractType
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 $processType = $event->getForm()->getData();
-                $formModifier($event->getForm()->getParent(), $processType);
+                $process = $event->getForm()->getParent()->getData();
+                $formModifier($event->getForm()->getParent(), $process, $processType);
             }
         );
     }

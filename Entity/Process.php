@@ -72,6 +72,8 @@ class Process extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessType", inversedBy="processes")
      * @ORM\JoinColumn(name="process_type_id", referencedColumnName="id", nullable=false)
      *
+     * @Assert\NotNull()
+     *
      * @Gedmo\Versioned()
      */
     private $processType;
