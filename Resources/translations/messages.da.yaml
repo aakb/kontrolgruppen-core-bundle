@@ -577,6 +577,7 @@ process:
         service: Ydelse
         relations: Relationer
         filter:
+            show_all_client_types: Alle klienttyper
             show_all_types: Alle sagstyper
             show_all_status: Alle sagsstatusser
             show_all_case_worker: Alle sagsbehandlere
@@ -1106,5 +1107,8 @@ process_client_type:
 
 client_types:
     help: Vælg klienttyper. Gælder for alt hvis ingen klienttyper er valgt.
+
+Kontrolgruppen\CoreBundle\Entity\ProcessClientCompany: Virksomhed
+Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson: Person
 
 '%value% is not valid for the selected client types (%client_types%).': '"{{ value }}" er ikke gyldig for de valgte klienttyper ({{ client_types }}).'
