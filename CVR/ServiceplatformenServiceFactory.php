@@ -39,15 +39,15 @@ class ServiceplatformenServiceFactory
      * @param string                  $serviceplatformenServiceAgreementUuid
      * @param string                  $serviceplatformenUserSystemUuid
      * @param string                  $serviceplatformenUserUuid
-     * @param string                  $personBaseDataExtendedServiceContract
-     * @param string                  $personBaseDataExtendedServiceEndpoint
-     * @param string                  $personBaseDataExtendedServiceUuid
+     * @param string                  $serviceContractFilename
+     * @param string                  $serviceEndpoint
+     * @param string                  $serviceUuid
      *
      * @return OnlineService
      *
      * @throws CvrException
      */
-    public static function createOnlineService(ClientInterface $httpClient, RequestFactoryInterface $requestFactory, string $azureTenantId, string $azureApplicationId, string $azureClientSecret, string $azureKeyVaultName, string $azureKeyVaultSecret, string $azureKeyVaultSecretVersion, string $serviceplatformenServiceAgreementUuid, string $serviceplatformenUserSystemUuid, string $serviceplatformenUserUuid, string $personBaseDataExtendedServiceContract, string $personBaseDataExtendedServiceEndpoint, string $personBaseDataExtendedServiceUuid)
+    public static function createOnlineService(ClientInterface $httpClient, RequestFactoryInterface $requestFactory, string $azureTenantId, string $azureApplicationId, string $azureClientSecret, string $azureKeyVaultName, string $azureKeyVaultSecret, string $azureKeyVaultSecretVersion, string $serviceplatformenServiceAgreementUuid, string $serviceplatformenUserSystemUuid, string $serviceplatformenUserUuid, string $serviceContractFilename, string $serviceEndpoint, string $serviceUuid)
     {
         try {
             $vaultToken = new VaultToken($httpClient, $requestFactory);
@@ -82,15 +82,15 @@ class ServiceplatformenServiceFactory
         $options = [
             'local_cert' => $pathToCertificate,
             'passphrase' => $certificateLocator->getPassphrase(),
-            'location' => $personBaseDataExtendedServiceEndpoint,
+            'location' => $serviceEndpoint,
         ];
 
-        if (!realpath($personBaseDataExtendedServiceContract)) {
-            throw new CvrException('The path to the service contract is invalid.');
+        if (!realpath($serviceContractFilename)) {
+            throw new CprException(sprintf('The path (%s) to the service contract is invalid.', $serviceContractFilename));
         }
 
         try {
-            $soapClient = new \SoapClient($personBaseDataExtendedServiceContract, $options);
+            $soapClient = new \SoapClient($serviceContractFilename, $options);
         } catch (\SoapFault $e) {
             throw new CvrException($e->getMessage(), $e->getCode());
         }
@@ -98,7 +98,7 @@ class ServiceplatformenServiceFactory
         $requestGenerator = new InvocationContextRequestGenerator(
             $serviceplatformenServiceAgreementUuid,
             $serviceplatformenUserSystemUuid,
-            $personBaseDataExtendedServiceUuid,
+            $serviceUuid,
             $serviceplatformenUserUuid
         );
 
