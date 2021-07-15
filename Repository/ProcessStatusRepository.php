@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\Process;
 use Kontrolgruppen\CoreBundle\Entity\ProcessStatus;
 use Kontrolgruppen\CoreBundle\Entity\ProcessType;
@@ -22,15 +20,12 @@ use Kontrolgruppen\CoreBundle\Entity\ProcessType;
  * @method ProcessStatus[]    findAll()
  * @method ProcessStatus[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProcessStatusRepository extends ServiceEntityRepository
+class ProcessStatusRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProcessStatus::class);
-    }
+    protected static $taxonomyClass = ProcessStatus::class;
 
     /**
      * Get process statuses that are available for the process.

@@ -8,14 +8,16 @@
     <div class="table-responsive">
         <table class="table table-striped table-hover table-borderless thead-light">
             <thead>
-            <tr>
-                <th>{{ 'reason.table.name'|trans }}</th>
-                <th class="float-right">{{ 'common.table.actions'|trans }}</th>
-            </tr>
+                <tr>
+                    <th>{{ 'reason.table.client_types'|trans }}</th>
+                    <th>{{ 'reason.table.name'|trans }}</th>
+                    <th class="float-right">{{ 'common.table.actions'|trans }}</th>
+                </tr>
             </thead>
             <tbody>
             {% for reason in reasons %}
                 <tr>
+                    <td>{{ reason.clientTypes|process_client_types }}</td>
                     <td>{{ reason.name }}</td>
                     <td class="text-right">
                         <a href="{{ path('reason_show', {'id': reason.id}) }}" class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top"

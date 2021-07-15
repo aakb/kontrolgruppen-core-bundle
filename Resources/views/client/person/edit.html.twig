@@ -1,0 +1,23 @@
+{% extends '@KontrolgruppenCore/process/main.html.twig' %}
+
+{% block title %}{{ 'client.edit.title'|trans }}{% endblock %}
+
+{% block content %}
+    <h1>{{ 'client.edit.title'|trans }}</h1>
+
+    <div class="form-group">
+        <label for="client_process_clientCPR">{{ 'client.form.cpr'|trans }}</label>
+        <input type="text" id="client_process_clientCPR" disabled="disabled" value="{{ process.clientCPR }}" class="form-control">
+    </div>
+
+    {% if canEdit %}
+        {{ include('@KontrolgruppenCore/client/person/_form.html.twig', {'button_label': 'Update'}) }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ encore_entry_script_tags('cars') }}
+    {{ encore_entry_script_tags('companies') }}
+{% endblock %}

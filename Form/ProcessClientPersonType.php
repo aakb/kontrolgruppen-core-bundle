@@ -10,7 +10,7 @@
 
 namespace Kontrolgruppen\CoreBundle\Form;
 
-use Kontrolgruppen\CoreBundle\Entity\Client;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,9 +18,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ClientType.
+ * Class ProcessClientPersonType.
  */
-class ClientType extends AbstractType
+class ProcessClientPersonType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -120,7 +120,7 @@ class ClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Client::class,
+            'data_class' => ProcessClientPerson::class,
         ]);
     }
 }

@@ -138,4 +138,29 @@ class FaellesSQLCprServiceResult implements CprServiceResultInterface
     {
         return $this->serviceResult['Postdistrikt'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAddress(): string
+    {
+        $address = $this->getStreetName();
+
+        $address .= null !== $this->getHouseNumber()
+            ? ' '.$this->getHouseNumber()
+            : ''
+        ;
+
+        $address .= null !== $this->getFloor()
+            ? ' '.$this->getFloor()
+            : ''
+        ;
+
+        $address .= null !== $this->getSide()
+            ? ' '.$this->getSide()
+            : ''
+        ;
+
+        return $address;
+    }
 }

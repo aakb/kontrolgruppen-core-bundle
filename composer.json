@@ -9,10 +9,12 @@
         "beberlei/doctrineextensions": "^1.2",
         "fresh/doctrine-enum-bundle": "^6.3",
         "friendsofsymfony/ckeditor-bundle": "^2.0",
-        "itk-dev/serviceplatformen": "0.0.4",
+        "itk-dev/serviceplatformen": "^1.1",
         "knplabs/knp-paginator-bundle": "^3.0",
         "lexik/form-filter-bundle": "^5.0",
         "mpdf/mpdf": "^8.0.2",
+        "nyholm/psr7": "^1.4",
+        "ocramius/doctrine-batch-utils": "^2.0",
         "onelogin/php-saml": "^3.1",
         "phpoffice/phpspreadsheet": "^1.8",
         "sensio/framework-extra-bundle": "^5.1",
@@ -27,6 +29,7 @@
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "~1.0",
         "symfony/process": "4.4.*",
+        "symfony/proxy-manager-bridge": "4.4.*",
         "symfony/security-bundle": "4.4.*",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.1",
@@ -35,8 +38,7 @@
         "symfony/validator": "4.4.*",
         "symfony/web-link": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.6",
-        "twig/extensions": "^1.5",
-        "ocramius/doctrine-batch-utils": "^2.0"
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",

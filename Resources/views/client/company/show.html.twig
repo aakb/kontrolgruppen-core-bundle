@@ -1,0 +1,83 @@
+{% extends '@KontrolgruppenCore/process/main.html.twig' %}
+
+{% block title %}{{ 'client.show.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% if canEdit %}
+        {% if is_granted('edit', client.process) %}
+            {% if newClientInfoAvailable %}
+                <div class="alert alert-info" role="alert">
+                    {{ 'client.show.new_info_available'|trans }} <a href="{{ path('client_update', {'process': process}) }}" class="alert-link">{{ 'client.show.update_client'|trans }}</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    <h1>{{ 'client.show.title'|trans }}</h1>
+
+    {% if process.completedAt %}
+        <div class="alert alert-warning">{{ 'process.completed_message'|trans }}</div>
+    {% endif %}
+
+    <h2>{{ 'client.sections.generel_info'|trans }}</h2>
+    <div class="row mb-3">
+        <div class="col-12 col-sm-6">
+            <div class="row">
+                <div class="col"><span class="text-muted">{{ 'client.table.cvr'|trans }}</span></div>
+                <div class="col">{{ client.cvr }}</div>
+            </div>
+            <div class="row">
+                <div class="col"><span class="text-muted">{{ 'client.table.name'|trans }}</span></div>
+                <div class="col">{{ client.name }}</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="row">
+                <div class="col-12 col-sm-4"><span class="text-muted">{{ 'client.table.address'|trans }}</span></div>
+                <div class="col-12 col-sm-8">
+                    <div class="row">
+                        <div class="col-12">{{ client.address }}</div>
+                        <div class="col-12">{{ client.postalCode }} {{ client.city }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>{{ 'client.sections.contact_person'|trans }}</h2>
+    <div class="row mb-3">
+        <div class="col-12 col-sm-6">
+            <div class="row">
+                <div class="col"><span class="text-muted">{{ 'contact_person.name'|trans }}</span></div>
+                <div class="col">{{ client.contactPerson.name }}</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="row">
+                {# Line up with address label and value #}
+                <div class="col-12 col-sm-4"><span class="text-muted">{{ 'contact_person.telephone'|trans }}</span></div>
+                <div class="col-12 col-sm-8">{{ client.contactPerson.telephone }}</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>{{ 'client.sections.transportation'|trans }}</h2>
+    <div class="row mb-3">
+            <div class="col-12 col-sm-6">
+            <span class="text-muted">{{ 'client.table.cars'|trans }}</span>
+            <ul class="list-group">
+                {% for car in client.cars %}
+                    <li class="list-group-item">
+                        <div>{{ car.registrationNumber }}</div>
+                        <div>{{ 'client.table.car.shared_ownership'|trans }}: {{ car.sharedOwnership|yes_no }}</div>
+                        <div>{{ car.notes|raw }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% if canEdit %}
+        <a href="{{ path('client_edit', {'process': process.id}) }}" class="btn btn-primary float-right pl-5 pr-5">{{ 'common.actions.edit'|trans }}</a>
+    {% endif %}
+{% endblock %}

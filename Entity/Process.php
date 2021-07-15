@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Kontrolgruppen\CoreBundle\Validator as KontrolgruppenAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -49,15 +48,6 @@ class Process extends AbstractEntity
     private $caseNumber;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @KontrolgruppenAssert\CPR
-     *
-     * @Gedmo\Versioned()
-     */
-    private $clientCPR;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Channel", inversedBy="processes")
      *
      * @Gedmo\Versioned()
@@ -82,6 +72,8 @@ class Process extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessType", inversedBy="processes")
      * @ORM\JoinColumn(name="process_type_id", referencedColumnName="id", nullable=false)
      *
+     * @Assert\NotNull()
+     *
      * @Gedmo\Versioned()
      */
     private $processType;
@@ -104,9 +96,9 @@ class Process extends AbstractEntity
     private $journalEntries;
 
     /**
-     * @ORM\OneToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Client", mappedBy="process", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\AbstractProcessClient", mappedBy="process", cascade={"persist", "remove"})
      */
-    private $client;
+    private $processClient;
 
     /**
      * @ORM\OneToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Conclusion", mappedBy="process", cascade={"persist", "remove"})
@@ -266,26 +258,6 @@ class Process extends AbstractEntity
     public function setCaseNumber(string $caseNumber): self
     {
         $this->caseNumber = $caseNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getClientCPR(): ?string
-    {
-        return $this->clientCPR;
-    }
-
-    /**
-     * @param string $clientCPR
-     *
-     * @return Process
-     */
-    public function setClientCPR(string $clientCPR): self
-    {
-        $this->clientCPR = $clientCPR;
 
         return $this;
     }
@@ -473,25 +445,25 @@ class Process extends AbstractEntity
     }
 
     /**
-     * @return Client|null
+     * @return AbstractProcessClient|null
      */
-    public function getClient(): ?Client
+    public function getProcessClient(): ?AbstractProcessClient
     {
-        return $this->client;
+        return $this->processClient;
     }
 
     /**
-     * @param Client $client
+     * @param AbstractProcessClient $processClient
      *
      * @return Process
      */
-    public function setClient(Client $client): self
+    public function setProcessClient(AbstractProcessClient $processClient): self
     {
-        $this->client = $client;
+        $this->processClient = $processClient;
 
         // set the owning side of the relation if necessary
-        if ($this !== $client->getProcess()) {
-            $client->setProcess($this);
+        if ($this !== $processClient->getProcess()) {
+            $processClient->setProcess($this);
         }
 
         return $this;

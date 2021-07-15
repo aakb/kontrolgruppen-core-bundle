@@ -30,10 +30,10 @@ class Company
     private $CVR;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Client", inversedBy="companies")
+     * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson", inversedBy="companies")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $client;
+    private $processClient;
 
     /**
      * @ORM\Column(type="boolean")
@@ -69,21 +69,21 @@ class Company
     }
 
     /**
-     * @return Client|null
+     * @return ProcessClientPerson|null
      */
-    public function getClient(): ?Client
+    public function getProcessClient(): ?ProcessClientPerson
     {
-        return $this->client;
+        return $this->processClient;
     }
 
     /**
-     * @param Client|null $client
+     * @param ProcessClientPerson|null $processClient
      *
      * @return $this
      */
-    public function setClient(?Client $client): self
+    public function setProcessClient(?ProcessClientPerson $processClient): self
     {
-        $this->client = $client;
+        $this->processClient = $processClient;
 
         return $this;
     }

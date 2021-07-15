@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\Channel;
 use Kontrolgruppen\CoreBundle\Entity\Reason;
 
@@ -21,13 +19,10 @@ use Kontrolgruppen\CoreBundle\Entity\Reason;
  * @method Channel[]    findAll()
  * @method Channel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReasonRepository extends ServiceEntityRepository
+class ReasonRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Reason::class);
-    }
+    protected static $taxonomyClass = Reason::class;
 }

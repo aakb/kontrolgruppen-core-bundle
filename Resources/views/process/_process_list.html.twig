@@ -7,7 +7,7 @@
                 <tr>
                     <th>{{ 'process.table.case_number'|trans }}</th>
                     <th class="d-none d-sm-table-cell">{{ 'process.table.process_type'|trans }}</th>
-                    <th>{{ 'process.table.client_cpr'|trans }}</th>
+                    <th>{{ 'process.table.client'|trans }}</th>
                     <th>{{ 'process.table.client_name'|trans }}</th>
                     <th class="d-none d-lg-table-cell">{{ 'process.table.case_worker'|trans }}</th>
                     <th class="d-none d-lg-table-cell">{{ 'process.table.channel'|trans }}</th>
@@ -25,8 +25,8 @@
                         {% endif %}
                     </td>
                     <td class="d-none d-sm-table-cell">{{ process.processType }}</td>
-                    <td>{{ process.clientCPR }}</td>
-                    <td>{{ process.client.firstName }} {{ process.client.lastName }}</td>
+                    <td>{{ process.processClient }}</td>
+                    <td>{{ process.processClient.name }}</td>
                     <td class="d-none d-lg-table-cell">{{ process.caseWorker }}</td>
                     <td class="d-none d-xl-table-cell">{{ process.channel }}</td>
                     <td class="d-none d-lg-table-cell">{{ process.service }}</td>

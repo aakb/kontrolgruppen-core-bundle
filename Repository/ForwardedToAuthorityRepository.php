@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\ForwardedToAuthority;
 
 /**
@@ -20,13 +18,10 @@ use Kontrolgruppen\CoreBundle\Entity\ForwardedToAuthority;
  * @method ForwardedToAuthority[]    findAll()
  * @method ForwardedToAuthority[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ForwardedToAuthorityRepository extends ServiceEntityRepository
+class ForwardedToAuthorityRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ForwardedToAuthority::class);
-    }
+    protected static $taxonomyClass = ForwardedToAuthority::class;
 }

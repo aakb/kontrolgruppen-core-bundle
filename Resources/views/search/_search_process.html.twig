@@ -8,9 +8,9 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'search.table.case_number'|trans , 'e.caseNumber')|raw }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_cpr'|trans , 'e.clientCPR')|raw }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_first_name'|trans , 'client.firstName')|raw }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_last_name'|trans , 'client.lastName')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_identifier'|trans , 'client.identifier')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_type'|trans , 'client.type')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'search.table.client_name'|trans , 'client.name')|raw }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'search.table.client_adress'|trans , 'client.address')|raw }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'search.table.client_telephone'|trans , 'client.telephone')|raw }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'search.table.case_worker'|trans , 'caseWorker.id')|raw }}</th>
@@ -20,11 +20,11 @@
             {% for process in pagination %}
                 <tr>
                     <td><a href="{{ path('process_show', {'id': process.id}) }}">{{ process.caseNumber }}</a></td>
-                    <td>{{ process.clientCPR }}</td>
-                    <td>{{ process.client.firstName }}</td>
-                    <td>{{ process.client.lastName }}</td>
-                    <td>{{ process.client.address }}</td>
-                    <td>{{ process.client.telephone }}</td>
+                    <td>{{ process.processClient.identifier }}</td>
+                    <td>{{ process.processClient.type|process_client_type }}</td>
+                    <td>{{ process.processClient.name }}</td>
+                    <td>{{ process.processClient.address }}</td>
+                    <td>{{ process.processClient.telephone }}</td>
                     <td>{% if process.caseWorker %}<span data-toggle="tooltip" data-placement="top" title="{{ process.caseWorker.name }}">{{ process.caseWorker }}</span>{% endif %}</td>
                 </tr>
             {% else %}

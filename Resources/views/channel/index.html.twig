@@ -9,6 +9,7 @@
         <table class="table table-striped table-hover table-borderless thead-light">
             <thead>
             <tr>
+                <th>{{ 'channel.table.client_types'|trans }}</th>
                 <th>{{ 'channel.table.name'|trans }}</th>
                 <th class="float-right">{{ 'common.table.actions'|trans }}</th>
             </tr>
@@ -16,6 +17,7 @@
             <tbody>
             {% for channel in channels %}
                 <tr>
+                    <td>{{ channel.clientTypes|process_client_types }}</td>
                     <td>{{ channel.name }}</td>
                     <td class="text-right">
                         <a href="{{ path('channel_show', {'id': channel.id}) }}" class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top"

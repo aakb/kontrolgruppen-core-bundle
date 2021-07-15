@@ -158,9 +158,9 @@ bin/console kontrolgruppen:report:export admin@example.com \
 	--parameters='startdate=-1 month enddate=now' --debug-parameters
 ```
 
-## CPR service
+## CPR and CVR lookup services
 
-Make sure to set the following parameters in the .env file:
+The following environment variables must be set in the `.env.local` file:
 
 ```ini
 AZURE_TENANT_ID='xyz'
@@ -169,33 +169,23 @@ AZURE_CLIENT_SECRET='xyz'
 AZURE_KEY_VAULT_SECRET='xyz'
 AZURE_KEY_VAULT_SECRET_VERSION='xyz'
 
-SERVICEPLATFORMEN_SERVICE_AGREEMENT_UUID='xyz'
-SERVICEPLATFORMEN_USER_SYSTEM_UUID='xyz'
-SERVICEPLATFORMEN_USER_UUID='xyz'
+# CPR lookup
+SERVICEPLATFORMEN_CPR_SERVICE_AGREEMENT_UUID='xyz'
+SERVICEPLATFORMEN_CPR_USER_SYSTEM_UUID='xyz'
+SERVICEPLATFORMEN_CPR_USER_UUID='xyz'
 
-# The path to the wsdl most be relative to the project where this .env file is located
-PERSON_BASE_DATA_EXTENDED_SERVICE_CONTRACT='path.to.wsdl'
-PERSON_BASE_DATA_EXTENDED_SERVICE_ENDPOINT='https://xyz.com'
-PERSON_BASE_DATA_EXTENDED_SERVICE_UUID='xyz'
-```
+SERVICEPLATFORMEN_CPR_SERVICE_CONTRACT='%kernel.project_dir%/vendor/itk-dev/serviceplatformen/resources/person-base-data-extended-service-contract/wsdl/context/PersonBaseDataExtendedService.wsdl'
+SERVICEPLATFORMEN_CPR_SERVICE_ENDPOINT='https://xyz.com'
+SERVICEPLATFORMEN_CPR_SERVICE_UUID='xyz'
 
-And add the following to the parent bundles config/services.yaml:
+# CVR lookup
+SERVICEPLATFORMEN_CVR_SERVICE_AGREEMENT_UUID='xyz'
+SERVICEPLATFORMEN_CVR_USER_SYSTEM_UUID='xyz'
+SERVICEPLATFORMEN_CVR_USER_UUID='xyz'
 
-```yaml
-parameters:
-    ...
-    azure_tenant_id: '%env(AZURE_TENANT_ID)%'
-    azure_application_id: '%env(AZURE_APPLICATION_ID)%'
-    azure_client_secret: '%env(AZURE_CLIENT_SECRET)%'
-    azure_key_vault_name: '%env(AZURE_KEY_VAULT_NAME)%'
-    azure_key_vault_secret: '%env(AZURE_KEY_VAULT_SECRET)%'
-    azure_key_vault_secret_version: '%env(AZURE_KEY_VAULT_SECRET_VERSION)%'
-    serviceplatformen_service_agreement_uuid: '%env(SERVICEPLATFORMEN_SERVICE_AGREEMENT_UUID)%'
-    serviceplatformen_user_system_uuid: '%env(SERVICEPLATFORMEN_USER_SYSTEM_UUID)%'
-    serviceplatformen_user_uuid: '%env(SERVICEPLATFORMEN_USER_UUID)%'
-    person_base_data_extended_service_contract: '%kernel.project_dir%/%env(PERSON_BASE_DATA_EXTENDED_SERVICE_CONTRACT)%'
-    person_base_data_extended_service_endpoint: '%env(PERSON_BASE_DATA_EXTENDED_SERVICE_ENDPOINT)%'
-    person_base_data_extended_service_uuid: '%env(PERSON_BASE_DATA_EXTENDED_SERVICE_UUID)%'
+SERVICEPLATFORMEN_CVR_SERVICE_CONTRACT='%kernel.project_dir%/vendor/itk-dev/serviceplatformen/resources/online-service-contract/wsdl/context/OnlineService.wsdl'
+SERVICEPLATFORMEN_CVR_SERVICE_ENDPOINT='https://xyz.com'
+SERVICEPLATFORMEN_CVR_SERVICE_UUID='xyz'
 ```
 
 ### Updating addresses on clients from the command line

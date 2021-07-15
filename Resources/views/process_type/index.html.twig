@@ -9,6 +9,7 @@
         <table class="table table-striped table-hover table-borderless thead-light">
             <thead>
             <tr>
+                <th>{{ 'process_type.table.client_types'|trans }}</th>
                 <th>{{ 'process_type.table.name'|trans }}</th>
                 <th>{{ 'process_type.table.hide_in_dashboard'|trans }}</th>
                 <th>{{ 'process_type.table.conclusion_class'|trans }}</th>
@@ -19,6 +20,7 @@
             <tbody>
             {% for process_type in process_types %}
                 <tr>
+                    <td>{{ process_type.clientTypes|process_client_types }}</td>
                     <td><a href="{{ path('process_type_show', {'id': process_type.id}) }}">{{ process_type.name }}</a></td>
                     <td>{{ process_type.hideInDashboard|yes_no }}</td>
                     <td>{{ conclusionClassTranslation(process_type.conclusionClass) }}</td>

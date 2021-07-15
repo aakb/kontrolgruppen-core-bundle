@@ -55,14 +55,9 @@ class ProcessSearchService
         }
 
         $qb->orWhere('e.caseNumber LIKE :search');
-        $qb->orWhere('e.clientCPR LIKE :search');
         $qb->orWhere('client.telephone LIKE :search');
-        $qb->orWhere(
-            $qb->expr()->concat(
-                $qb->expr()->concat('client.firstName', $qb->expr()->literal(' ')),
-                'client.lastName'
-            ).'LIKE :search'
-        );
+        $qb->orWhere('client.name LIKE :search');
+        $qb->orWhere('client.identifier LIKE :search');
         $qb->orWhere('client.address LIKE :search');
         $qb->orWhere('caseWorker.username LIKE :search');
         $qb->setParameter(':search', '%'.$search.'%');
@@ -93,15 +88,7 @@ class ProcessSearchService
             $qb = $this->applyFieldSearch($qb, $fieldMatches);
         } else {
             $qb->orWhere('client.address = :search');
-            $qb->orWhere(
-                $qb->expr()->concat(
-                    $qb->expr()->concat(
-                        'client.firstName',
-                        $qb->expr()->literal(' ')
-                    ),
-                    'client.lastName'
-                ).'= :search'
-            );
+            $qb->orWhere('client.name = :search');
             $qb->setParameter(':search', $search);
         }
 
@@ -190,7 +177,7 @@ class ProcessSearchService
     private function getQueryBuilder(): QueryBuilder
     {
         $qb = $this->processRepository->createQueryBuilder('e');
-        $qb->leftJoin('e.client', 'client');
+        $qb->leftJoin('e.processClient', 'client');
         $qb->addSelect('client');
         $qb->leftJoin('e.caseWorker', 'caseWorker');
         $qb->addSelect('partial caseWorker.{id,username,name}');

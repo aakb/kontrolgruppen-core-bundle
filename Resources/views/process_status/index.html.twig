@@ -9,6 +9,7 @@
         <table class="table table-striped table-hover table-borderless thead-light">
             <thead>
             <tr>
+                <th>{{ 'process_status.table.client_types'|trans }}</th>
                 <th>{{ 'process_status.table.name'|trans }}</th>
                 <th>{{ 'process_status.table.is_forward_to_another_authority'|trans }}</th>
                 <th>{{ 'process_status.table.is_completing_status'|trans }}</th>
@@ -19,6 +20,7 @@
             <tbody>
             {% for process_status in process_statuses %}
                 <tr>
+                    <td>{{ process_status.clientTypes|process_client_types }}</td>
                     <td>{{ process_status.name }}</td>
                     <td>{{ process_status.isForwardToAnotherAuthority|yes_no }}</td>
                     <td>{{ process_status.isCompletingStatus|yes_no }}</td>

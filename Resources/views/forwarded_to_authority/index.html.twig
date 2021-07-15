@@ -9,6 +9,7 @@
         <table class="table table-striped table-hover table-borderless thead-light">
             <thead>
             <tr>
+                <th>{{ 'forwarded_to_authority.table.client_types'|trans }}</th>
                 <th>{{ 'forwarded_to_authority.table.name'|trans }}</th>
                 <th class="float-right">{{ 'common.table.actions'|trans }}</th>
             </tr>
@@ -16,6 +17,7 @@
             <tbody>
             {% for forwarded_to_authority in forwarded_to_authorities %}
                 <tr>
+                    <td>{{ forwarded_to_authority.clientTypes|process_client_types }}</td>
                     <td>{{ forwarded_to_authority.name }}</td>
                     <td class="text-right">
                         <a href="{{ path('forwarded_to_authority_show', {'id': forwarded_to_authority.id}) }}" class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top"

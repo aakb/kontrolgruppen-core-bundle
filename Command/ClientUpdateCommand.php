@@ -11,10 +11,7 @@
 namespace Kontrolgruppen\CoreBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Kontrolgruppen\CoreBundle\CPR\Cpr;
-use Kontrolgruppen\CoreBundle\CPR\CprException;
-use Kontrolgruppen\CoreBundle\CPR\CprServiceInterface;
-use Kontrolgruppen\CoreBundle\Repository\ClientRepository;
+use Kontrolgruppen\CoreBundle\Service\ProcessClientManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,24 +24,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ClientUpdateCommand extends Command
 {
     protected static $defaultName = 'kontrolgruppen:client:update';
-    private $clientRepository;
-    private $cprService;
+    private $processClientManager;
     private $entityManager;
     private $logger;
 
     /**
      * ClientUpdateCommand constructor.
      *
-     * @param ClientRepository       $clientRepository
-     * @param CprServiceInterface    $cprService
+     * @param ProcessClientManager   $processClientManager
      * @param EntityManagerInterface $entityManager
      * @param LoggerInterface        $logger
      */
-    public function __construct(ClientRepository $clientRepository, CprServiceInterface $cprService, EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(ProcessClientManager $processClientManager, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         parent::__construct();
-        $this->clientRepository = $clientRepository;
-        $this->cprService = $cprService;
+        $this->processClientManager = $processClientManager;
         $this->entityManager = $entityManager;
         $this->logger = $logger;
     }
@@ -70,17 +64,13 @@ class ClientUpdateCommand extends Command
     {
         $isDryRun = !empty($input->getOption('dry-run'));
 
-        $clients = $this->clientRepository->findAll();
+        $clients = $this->processClientManager->findAll();
         $updatedClients = [];
 
         foreach ($clients as $client) {
-            $cpr = new Cpr($client->getProcess()->getClientCPR());
             try {
-                $newInfoAvailable = $this->cprService->isNewClientInfoAvailable(
-                    $cpr,
-                    $client
-                );
-            } catch (CprException $e) {
+                $newInfoAvailable = $this->processClientManager->isNewClientInfoAvailable($client);
+            } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 continue;
             }
@@ -90,8 +80,8 @@ class ClientUpdateCommand extends Command
             }
 
             try {
-                $updatedClient = $this->cprService->populateClient($cpr, $client);
-            } catch (CprException $e) {
+                $updatedClient = $this->processClientManager->populateClient($client);
+            } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 continue;
             }

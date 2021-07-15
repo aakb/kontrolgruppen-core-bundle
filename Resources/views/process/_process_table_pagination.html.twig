@@ -9,7 +9,7 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'process.table.case_number'|trans , 'e.caseNumber')|raw }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'process.table.process_status'|trans , 'processStatus.id')|raw }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'process.table.client_cpr'|trans , 'e.clientCPR')|raw }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'process.table.client_identifier'|trans , 'client.identifier')|raw }}</th>
                 <th class="d-none d-lg-table-cell">{{ knp_pagination_sortable(pagination, 'process.table.case_worker'|trans , 'caseWorker.id')|raw }}</th>
                 <th class="d-none d-lg-table-cell">{{ knp_pagination_sortable(pagination, 'process.table.channel'|trans , 'channel.id')|raw }}</th>
                 <th class="d-none d-md-table-cell">{{ knp_pagination_sortable(pagination, 'process.table.reason'|trans , 'reason.id')|raw }}</th>
@@ -28,7 +28,7 @@
                         {% endif %}</a>
                     </td>
                     <td>{{ process.processStatus }}</td>
-                    <td>{{ process.clientCPR }}</td>
+                    <td>{{ process.processClient.identifier }}</td>
                     <td class="d-none d-lg-table-cell">{% if process.caseWorker %}<span data-toggle="tooltip" data-placement="top" title="{{ process.caseWorker.name }}">{{ process.caseWorker }}</span>{% endif %}</td>
                     <td class="d-none d-lg-table-cell">{{ process.channel }}</td>
                     <td class="d-none d-md-table-cell">{{ process.reason }}</td>

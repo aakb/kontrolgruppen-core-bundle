@@ -1,0 +1,19 @@
+<div id="cvr-search-results">
+    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapse-results" aria-expanded="false" aria-controls="collapse-results">
+        {{ 'process.form.search_client_cvr.results'|trans }}: {{ processes|length }}
+    </button>
+
+    {% if processes|length %}
+    <div class="collapse" id="collapse-results">
+        <div class="card card-body">
+            <ul>
+                {% for process in processes %}
+                    <li><a href="{{ path('process_show', {'id': process.id}) }}">{{ process.caseNumber }}</a></li>
+                {% else %}
+                    <li>{{ 'common.no_records_found'|trans }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>

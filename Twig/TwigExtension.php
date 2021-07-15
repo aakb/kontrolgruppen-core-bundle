@@ -13,6 +13,8 @@ namespace Kontrolgruppen\CoreBundle\Twig;
 use Exception;
 use Kontrolgruppen\CoreBundle\Entity\Conclusion;
 use Kontrolgruppen\CoreBundle\Entity\Process;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientCompany;
+use Kontrolgruppen\CoreBundle\Entity\ProcessClientPerson;
 use Kontrolgruppen\CoreBundle\Service\ConclusionService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -53,6 +55,8 @@ class TwigExtension extends AbstractExtension
             new TwigFilter('yes_no', [$this, 'booleanYesNoFilter']),
             new TwigFilter('true_false', [$this, 'booleanTrueFalseFilter']),
             new TwigFilter('simple_date', [$this, 'simpleDateFilter'], ['needs_environment' => true]),
+            new TwigFilter('process_client_type', [$this, 'processClientTypesFilter']),
+            new TwigFilter('process_client_types', [$this, 'processClientTypesFilter']),
         ];
     }
 
@@ -128,6 +132,34 @@ class TwigExtension extends AbstractExtension
         }
 
         return $this->translator->trans('common.boolean.no');
+    }
+
+    /**
+     * @param array|null $types
+     *
+     * @return string
+     */
+    public function processClientTypesFilter($types = null)
+    {
+        if (null === $types) {
+            return '–';
+        }
+
+        $types = (array) $types;
+
+        return implode(
+            ', ',
+            array_map(function (string $type) {
+                switch ($type) {
+                    case ProcessClientCompany::TYPE:
+                        return $this->translator->trans('process_client_type.company');
+                    case ProcessClientPerson::TYPE:
+                        return $this->translator->trans('process_client_type.person');
+                    default:
+                        return $this->translator->trans('process_client_type.none');
+                }
+            }, $types)
+        );
     }
 
     /**

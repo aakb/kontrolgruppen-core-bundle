@@ -51,19 +51,47 @@ services:
             $authorizationChecker: '@?security.authorization_checker'
             $tokenStorage: '@?security.token_storage'
 
+    # For some reason we have to alias ChoiceListFactoryInterface to be able to inject it.
+    Symfony\Component\Form\ChoiceList\Factory\ChoiceListFactoryInterface: '@form.choice_list_factory.default'
+
     ItkDev\Serviceplatformen\Service\PersonBaseDataExtendedService:
+        # Must be lazy to work when CVR service is also in play.
+        lazy: true
         factory: ['Kontrolgruppen\CoreBundle\CPR\ServiceplatformenServiceFactory', createPersonBaseDataExtendedService]
         arguments: [
-                '%azure_tenant_id%',
-                '%azure_application_id%',
-                '%azure_client_secret%',
-                '%azure_key_vault_name%',
-                '%azure_key_vault_secret%',
-                '%azure_key_vault_secret_version%',
-                '%serviceplatformen_service_agreement_uuid%',
-                '%serviceplatformen_user_system_uuid%',
-                '%serviceplatformen_user_uuid%',
-                '%person_base_data_extended_service_contract%',
-                '%person_base_data_extended_service_endpoint%',
-                '%person_base_data_extended_service_uuid%'
+                '@psr18.http_client',
+                '@nyholm.psr7.psr17_factory',
+                '%env(AZURE_TENANT_ID)%',
+                '%env(AZURE_APPLICATION_ID)%',
+                '%env(AZURE_CLIENT_SECRET)%',
+                '%env(AZURE_KEY_VAULT_NAME)%',
+                '%env(AZURE_KEY_VAULT_SECRET)%',
+                '%env(AZURE_KEY_VAULT_SECRET_VERSION)%',
+                '%env(SERVICEPLATFORMEN_CPR_SERVICE_AGREEMENT_UUID)%',
+                '%env(SERVICEPLATFORMEN_CPR_USER_SYSTEM_UUID)%',
+                '%env(SERVICEPLATFORMEN_CPR_USER_UUID)%',
+                '%env(resolve:SERVICEPLATFORMEN_CPR_SERVICE_CONTRACT)%',
+                '%env(SERVICEPLATFORMEN_CPR_SERVICE_ENDPOINT)%',
+                '%env(SERVICEPLATFORMEN_CPR_SERVICE_UUID)%'
+        ]
+
+    ItkDev\Serviceplatformen\Service\OnlineService:
+        # Must be lazy to work when CPR service is also in play.
+        lazy: true
+        factory: ['Kontrolgruppen\CoreBundle\CVR\ServiceplatformenServiceFactory', createOnlineService]
+        arguments: [
+                '@psr18.http_client',
+                '@nyholm.psr7.psr17_factory',
+                '%env(AZURE_TENANT_ID)%',
+                '%env(AZURE_APPLICATION_ID)%',
+                '%env(AZURE_CLIENT_SECRET)%',
+                '%env(AZURE_KEY_VAULT_NAME)%',
+                '%env(AZURE_KEY_VAULT_SECRET)%',
+                '%env(AZURE_KEY_VAULT_SECRET_VERSION)%',
+                '%env(SERVICEPLATFORMEN_CVR_SERVICE_AGREEMENT_UUID)%',
+                '%env(SERVICEPLATFORMEN_CVR_USER_SYSTEM_UUID)%',
+                '%env(SERVICEPLATFORMEN_CVR_USER_UUID)%',
+                '%env(resolve:SERVICEPLATFORMEN_CVR_SERVICE_CONTRACT)%',
+                '%env(SERVICEPLATFORMEN_CVR_SERVICE_ENDPOINT)%',
+                '%env(SERVICEPLATFORMEN_CVR_SERVICE_UUID)%'
         ]

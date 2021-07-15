@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\ProcessType;
 
 /**
@@ -20,13 +18,10 @@ use Kontrolgruppen\CoreBundle\Entity\ProcessType;
  * @method ProcessType[]    findAll()
  * @method ProcessType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProcessTypeRepository extends ServiceEntityRepository
+class ProcessTypeRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProcessType::class);
-    }
+    protected static $taxonomyClass = ProcessType::class;
 }

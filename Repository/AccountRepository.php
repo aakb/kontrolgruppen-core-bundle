@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\Account;
 
 /**
@@ -20,13 +18,10 @@ use Kontrolgruppen\CoreBundle\Entity\Account;
  * @method Account[]    findAll()
  * @method Account[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AccountRepository extends ServiceEntityRepository
+class AccountRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Account::class);
-    }
+    protected static $taxonomyClass = Account::class;
 }

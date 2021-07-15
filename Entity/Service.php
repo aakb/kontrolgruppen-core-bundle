@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Kontrolgruppen\CoreBundle\Validator\ValidClientTaxonomy;
 
 /**
  * @ORM\Entity(repositoryClass="Kontrolgruppen\CoreBundle\Repository\ServiceRepository")
@@ -29,6 +30,8 @@ class Service extends AbstractTaxonomy
 
     /**
      * @ORM\ManyToMany(targetEntity="Kontrolgruppen\CoreBundle\Entity\ProcessType", mappedBy="services")
+     *
+     * @ValidClientTaxonomy()
      */
     private $processTypes;
 

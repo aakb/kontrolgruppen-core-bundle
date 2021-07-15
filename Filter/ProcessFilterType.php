@@ -10,9 +10,12 @@
 
 namespace Kontrolgruppen\CoreBundle\Filter;
 
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use Kontrolgruppen\CoreBundle\Repository\ProcessStatusRepository;
 use Kontrolgruppen\CoreBundle\Repository\ProcessTypeRepository;
 use Kontrolgruppen\CoreBundle\Repository\UserRepository;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderExecuterInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type as Filters;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -56,6 +59,18 @@ class ProcessFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('processClient', ProcessClientTypeFilterType::class, [
+            'label' => false,
+            // @see https://github.com/lexik/LexikFormFilterBundle/blob/master/Resources/doc/working-with-the-bundle.md#b-single-object
+            'add_shared' => static function (FilterBuilderExecuterInterface $qbe) {
+                $closure = static function (QueryBuilder $filterBuilder, $alias, $joinAlias, Expr $expr) {
+                    $filterBuilder->leftJoin($alias.'.processClient', $joinAlias);
+                };
+
+                $qbe->addOnce($qbe->getAlias().'.processClient', 'i', $closure);
+            },
+        ]);
+
         $builder->add('processType', Filters\ChoiceFilterType::class, [
             'choices' => array_reduce($this->processTypeRepository->findAll(), function ($carry, $processType) {
                 $carry[$processType->getName()] = $processType->getId();

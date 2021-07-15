@@ -42,10 +42,10 @@ class Car extends AbstractEntity
     private $notes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\Client", inversedBy="cars")
+     * @ORM\ManyToOne(targetEntity="Kontrolgruppen\CoreBundle\Entity\AbstractProcessClient", inversedBy="cars")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $client;
+    private $processClient;
 
     /**
      * @return int|null
@@ -116,21 +116,21 @@ class Car extends AbstractEntity
     }
 
     /**
-     * @return Client|null
+     * @return AbstractProcessClient|null
      */
-    public function getClient(): ?Client
+    public function getProcessClient(): ?AbstractProcessClient
     {
-        return $this->client;
+        return $this->processClient;
     }
 
     /**
-     * @param Client|null $client
+     * @param AbstractProcessClient|null $processClient
      *
      * @return Car
      */
-    public function setClient(?Client $client): self
+    public function setProcessClient(?AbstractProcessClient $processClient): self
     {
-        $this->client = $client;
+        $this->processClient = $processClient;
 
         return $this;
     }

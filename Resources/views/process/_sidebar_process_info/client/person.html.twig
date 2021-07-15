@@ -1,0 +1,59 @@
+<div class="mb-3">
+    <div class="row">
+        <div class="col">
+            <div class="bg-light p-3">
+                <div class="mb-3">
+                    {% if client.cpr %}
+                        <span class="d-block"><span class="sr-only">{{ 'sidebar.client.cpr'|trans }}</span>{{ client.cpr }}</span>
+                    {% endif %}
+                    {% if client.name %}
+                        <span class="d-block"><span class="sr-only">{{ 'sidebar.client.name'|trans }}</span>{{ client.name }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {% if client.address %}
+                        <span class="d-block">
+                            <span class="sr-only">{{ 'sidebar.client.address'|trans }}</span>
+                            <div>{{ client.address }}</div>
+                            <div>{{ client.postalCode }} {{ client.city }}</div>
+                        </span>
+                    {% endif %}
+                    {% if client.telephone %}
+                        <span class="d-block"><span class="sr-only">{{ 'sidebar.client.telephone'|trans }}</span>{{ client.telephone }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <h3>{{ 'sidebar.client.employment'|trans }}</h3>
+
+                    {% if client.receivesPublicAid %}
+                        <span class="d-block">{{ 'sidebar.client.receives_public_aid'|trans }}</span>
+                    {% endif %}
+                    {% if client.employed %}
+                        <span class="d-block">{{ 'sidebar.client.employed'|trans }}</span>
+                    {% endif %}
+                    {% if client.hasOwnCompany %}
+                        <span class="d-block">{{ 'sidebar.client.has_own_company'|trans }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <h3>{{ 'sidebar.client.transport'|trans }}</h3>
+
+                    {% if client.hasDriversLicense %}
+                        <span class="d-block">{{ 'sidebar.client.has_drivers_license'|trans }}</span>
+                    {% endif %}
+
+                    {% if client.cars|default(false) %}
+                        <span class="d-block"><span class="sr-only">{{ 'sidebar.client.cars'|trans }}</span>
+                        {% for car in client.cars %}
+                            <div>{{ car.registrationNumber }}{% if car.sharedOwnership|default(false) %} ({{ 'sidebar.client.car_shared_ownership'|trans }}){% endif %}</div>
+                        {% endfor %}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+{{ form_start(form) }}
+
+    <h2>{{ 'client.sections.generel_info'|trans }}</h2>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.name) }}
+            {{ form_row(form.telephone) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.address) }}
+            <div class="row">
+                <div class="col-4">
+                    {{ form_row(form.postalCode) }}
+                </div>
+                <div class="col-8">
+                    {{ form_row(form.city) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>{{ 'client.sections.contact_person'|trans }}</h2>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.contactPerson.name) }}
+        </div>
+        <div class="col-12 col-sm-6">
+            {{ form_row(form.contactPerson.telephone) }}
+        </div>
+    </div>
+
+    <h2>{{ 'client.sections.generel_info'|trans }}</h2>
+    <div class="row">
+        <div class="col-12">
+            <h3>{{ form_label(form.cars) }}</h3>
+            <ul class="cars list-group mb-3" data-prototype="{{ form_widget(form.cars.vars.prototype)|e('html_attr') }}">
+                {% for car in form.cars %}
+                    <li class="list-group-item">{{ form_row(car) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% do form_row(form.cars) %}
+
+    <button class="btn btn-success float-right pl-5 pr-5">{{ (button_label is defined ? ('client.form.' ~ button_label|lower) : 'common.actions.save')|trans }}</button>
+{{ form_end(form) }}

@@ -13,6 +13,7 @@ namespace Kontrolgruppen\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class AbstractEntity.
@@ -26,6 +27,8 @@ abstract class AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups("taxonomy_read")
      */
     protected $id;
 

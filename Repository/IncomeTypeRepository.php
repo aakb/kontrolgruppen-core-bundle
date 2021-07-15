@@ -10,8 +10,6 @@
 
 namespace Kontrolgruppen\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Kontrolgruppen\CoreBundle\Entity\IncomeType;
 
 /**
@@ -20,13 +18,10 @@ use Kontrolgruppen\CoreBundle\Entity\IncomeType;
  * @method IncomeType[]    findAll()
  * @method IncomeType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class IncomeTypeRepository extends ServiceEntityRepository
+class IncomeTypeRepository extends AbstractTaxonomyRepository
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, IncomeType::class);
-    }
+    protected static $taxonomyClass = IncomeType::class;
 }

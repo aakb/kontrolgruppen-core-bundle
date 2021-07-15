@@ -132,6 +132,31 @@ class ServiceplatformenCprServiceResult implements CprServiceResultInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getAddress(): string
+    {
+        $address = $this->getStreetName();
+
+        $address .= null !== $this->getHouseNumber()
+            ? ' '.$this->getHouseNumber()
+            : ''
+        ;
+
+        $address .= null !== $this->getFloor()
+            ? ' '.$this->getFloor()
+            : ''
+        ;
+
+        $address .= null !== $this->getSide()
+            ? ' '.$this->getSide()
+            : ''
+        ;
+
+        return $address;
+    }
+
+    /**
      * Returns the value of the property if it exists otherwise it returns an empty string.
      *
      * @param string $property name of property

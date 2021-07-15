@@ -1,6 +1,6 @@
 $(function () {
-    const $cprInputElement = $('#process_clientCPR');
-    const $searchCprButton = $('#process_searchCpr');
+    const $cprInputElement = $('#process_person_cpr');
+    const $searchCprButton = $('#process_person_search');
 
     $cprInputElement.change(function () {
         if ($('#cpr-search-results').length) {
@@ -15,8 +15,7 @@ $(function () {
 
         $.ajax({
             url: $searchCprButton.data('search-action'),
-            type: 'post',
-            data: { 'cpr': $cprInputElement.val() },
+            data: { 'cpr': $cprInputElement.val().replace('-', '') },
             success: function (html) {
                 if ($('#cpr-search-results').length) {
                     $searchCprButton.hide();

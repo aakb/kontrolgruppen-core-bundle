@@ -1,0 +1,25 @@
+{% extends '@KontrolgruppenCore/main/index.html.twig' %}
+
+{% block title %}{{ 'process.new.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{{ 'process.new.title'|trans }}</h1>
+
+            <p>{{ 'process.new.select_client_type'|trans }}</p>
+
+            <div class="row">
+                {% set client_types = [
+                    constant('Kontrolgruppen\\CoreBundle\\Entity\\ProcessClientCompany::TYPE'),
+                    constant('Kontrolgruppen\\CoreBundle\\Entity\\ProcessClientPerson::TYPE'),
+                    ] %}
+                {% for client_type in client_types %}
+                    <div class="col">
+                        <a href="{{ path('process_new', {clientType: client_type}) }}" class="btn btn-primary btn-block">{{ ('process_client_type.' ~ client_type)|trans }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

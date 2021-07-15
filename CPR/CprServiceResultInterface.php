@@ -65,4 +65,11 @@ interface CprServiceResultInterface
      * @return string
      */
     public function getCity(): string;
+
+    /**
+     * Get formatted street address.
+     *
+     * @return string
+     */
+    public function getAddress(): string;
 }
