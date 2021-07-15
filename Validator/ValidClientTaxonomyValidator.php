@@ -63,7 +63,8 @@ class ValidClientTaxonomyValidator extends ConstraintValidator
 
             foreach ($value as $item) {
                 if ($item instanceof AbstractTaxonomy) {
-                    if (!empty(array_diff($item->getClientTypes(), $allowedClientTypes))) {
+                    if (\is_array($item->getClientTypes())
+                        && empty(array_intersect($item->getClientTypes(), $allowedClientTypes))) {
                         $this->context->buildViolation($constraint->message)
                             ->setParameter('{{ value }}', $item->getName())
                             ->setParameter('{{ client_types }}', $allowedClientTypesDisplay)
